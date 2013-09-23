@@ -1,17 +1,15 @@
-class PornograffittiFan
-  URL = 'http://www.pornograffitti.jp/info/'
+class PornograffittiSite
 
   def initialize()
     @agent = Mechanize.new
-    @page = @agent.get('http://www.pornograffitti.jp/info/')
+    @url = File.join(PORNOGRAFFITTI_URL, 'info')
+    @page = @agent.get(@url)
+    @collection_name = 'porno_collection'
+    @name = 'Pornograffitti'
   end
+  attr_reader :name, :url, :collection_name
 
-  def self.get_news(collection)
-    client = self.new
-    client.find_new_reports(collection)
-  end
-
-  def find_new_reports(collection)
+  def get_news(collection)
     reports = @page.search(".//div[@id='info_l']")
     new_reports = []
     reports.search(".//a").each do |report|
